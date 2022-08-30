@@ -29,7 +29,7 @@ class PageRenderer(private val app: Cucuwiki) {
         renderer.render(parser.parse(markdown))
 
     private fun render(templateName: String, context: Map<String, Any>): String {
-        val template = engine.getTemplate(templateName)
+        val template = engine.getTemplate("$templateName.peb.html")
         val writer = StringWriter()
         template.evaluate(writer, context)
         return writer.toString()
@@ -53,7 +53,7 @@ class PageRenderer(private val app: Cucuwiki) {
 
     fun renderView(path: String, page: Page): String =
         render(
-            "view.html.peb",
+            "view",
             context(
                 "breadcrumbs" to breadcrumbify(path),
                 "title" to page.title,
@@ -63,7 +63,7 @@ class PageRenderer(private val app: Cucuwiki) {
 
     fun renderEdit(path: String): String =
         render(
-            "edit.html.peb",
+            "edit",
             context(
                 "breadcrumbs" to breadcrumbify(path),
                 "title" to "Editing /$path",
@@ -73,7 +73,7 @@ class PageRenderer(private val app: Cucuwiki) {
 
     fun genericNotFound(message: String): String =
         render(
-            "404.html.peb",
+            "404",
             context(
                 "message" to message,
             )
@@ -81,7 +81,7 @@ class PageRenderer(private val app: Cucuwiki) {
 
     fun articleNotFound(path: String): String =
         render(
-            "missingarticle.html.peb",
+            "missingarticle",
             context(
                 "breadcrumbs" to breadcrumbify(path),
                 "articlePath" to path,
