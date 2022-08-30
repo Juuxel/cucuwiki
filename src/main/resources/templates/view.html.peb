@@ -1,0 +1,12 @@
+{% extends "article.html.peb" %}
+
+{% block article %}
+<article>
+    <h1 class="article-title">
+            {{ title }}
+    </h1>
+    {% autoescape false %}
+    {{ markdown }}
+    {% endautoescape %}
+</article>
+{% endblock %}

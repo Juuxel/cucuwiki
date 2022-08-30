@@ -1,0 +1,18 @@
+{% extends "base.html.peb" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block navigation %}
+{% include "sidebar.html.peb" %}
+{% endblock %}
+
+{% block body %}
+<div class="readable-area">
+<nav class="breadcrumb-bar">
+{% autoescape false %}{{ breadcrumbs }}{% endautoescape %}
+</nav>
+{%block article %}{% endblock %}
+</div>
+{% endblock %}
+
+{% block bodyClasses %}article-root{% endblock %}

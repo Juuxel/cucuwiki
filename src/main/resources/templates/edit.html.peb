@@ -1,0 +1,14 @@
+{% extends "article.html.peb" %}
+
+{% block article %}
+<h1 class="article-title">
+Editing {{ articlePath }}
+</h1>
+<div class="edit-area">
+    <textarea aria-label="Editor"></textarea>
+    <div class="titled-border">
+        <div class="border-title">Preview</div>
+        <div class="border-contents">foo</div>
+    </div>
+</div>
+{% endblock %}

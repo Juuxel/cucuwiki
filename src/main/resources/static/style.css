@@ -1,0 +1,183 @@
+@media (prefers-color-scheme: light) {
+    :root {
+        --body-background: #EEEEEE;
+        --background: #F2F2F2;
+        --text-color: #222222;
+        --button-background: #EEEEEE;
+        --button-active-background: #DDDDDD;
+        --button-inactive-color: #BBBBBB;
+        --button-border: #BBBBBB;
+        --footer-color: #888888;
+        --link-color: #1e88e5;
+        --main-area-border: #BBBBBB;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --body-background: #202020;
+        --background: #282828;
+        --text-color: #F2F2F2;
+        --button-background: #333333;
+        --button-active-background: #404040;
+        --button-inactive-color: #888888;
+        --button-border: #1A1A1A;
+        --footer-color: #888888;
+        --link-color: #42a5f5;
+        --main-area-border: #5F5F5F;
+    }
+}
+
+body {
+    background-color: var(--body-background);
+    color: var(--text-color);
+    /* TODO: Different font */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+@media (orientation: landscape) {
+    .stage {
+        width: 65vw;
+    }
+}
+
+a:link, a:visited {
+    color: var(--link-color);
+}
+
+h1 {
+    font-weight: 400;
+}
+
+button {
+    background-color: var(--button-background);
+    color: var(--text-color);
+    border: solid 1px;
+    border-radius: 0.3em;
+    border-color: var(--button-border)
+}
+
+button:hover {
+    background-color: var(--button-active-background);
+}
+
+button:disabled {
+    background-color: var(--button-background);
+    color: var(--button-inactive-color);
+}
+
+#footer {
+    color: var(--footer-color);
+    text-align: center;
+    margin-top: 1em;
+    /*padding-top: 0.8em;
+    border-top: solid 0.1em;
+    border-image: linear-gradient(to right, transparent, var(--footer-color) 10%, var(--footer-color) 90%, transparent) 1;*/
+}
+
+#footer a {
+    color: inherit;
+}
+
+.breadcrumb-bar {
+    margin-bottom: 1em;
+}
+
+.breadcrumb-slash {
+    visibility: hidden;
+}
+
+.breadcrumb-slash:after {
+    visibility: visible;
+    content: '/';
+    margin: 0.4em;
+    font-weight: bold;
+}
+
+.article-title {
+    padding-left: 0.8em;
+    padding-bottom: 0.2em;
+    border-bottom: solid 1px;
+    border-image: linear-gradient(to right, transparent, var(--main-area-border) 5%, var(--main-area-border) 95%, transparent) 1;
+}
+
+.readable-area, #sidebar {
+    background-color: var(--background);
+    border: solid 1px var(--main-area-border);
+}
+
+.readable-area {
+    padding: 1em;
+}
+
+#sidebar {
+    padding: 0.5em;
+}
+
+.article-root {
+    display: grid;
+    grid-template-columns: 12em auto;
+    grid-column-gap: 0.5em;
+}
+
+.wiki-name {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.wiki-name:link, .wiki-name:visited {
+    color: var(--text-color);
+}
+
+.edit-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 1.5em;
+}
+
+.edit-area textarea {
+    width: 100%;
+}
+
+.titled-border {
+    border: solid var(--main-area-border);
+    border-width: 0 1px 1px 1px;
+    margin-top: 1ex;
+    display: grid;
+    --title-offset: 1em;
+}
+
+.titled-border .border-title {
+    position: relative;
+    top: -1.5ex;
+    display: grid;
+    white-space: nowrap;
+    grid-template-columns: var(--title-offset) min-content 1fr;
+    grid-column-gap: 0.2em;
+    height: min-content; /* needed because the containing grid stretches it on top of the actual content otherwise */
+}
+
+.titled-border .border-title::before,
+.titled-border .border-title::after {
+    position: relative;
+    top: 1.5ex;
+    content: "";
+    height: 1px;
+}
+
+.titled-border .border-title::before {
+    background: linear-gradient(to left, transparent, var(--main-area-border));
+}
+
+.titled-border .border-title::after {
+    background: linear-gradient(to right, transparent, var(--main-area-border) var(--title-offset));
+}
+
+.titled-border .border-contents {
+    padding: 1em;
+}
+
+.titled-border .border-title,
+.titled-border .border-contents {
+    grid-area: 1 / 1;
+}

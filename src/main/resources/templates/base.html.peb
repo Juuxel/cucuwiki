@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Title{% endblock %}</title>
+    <link href="/static/style.css" rel="stylesheet">
+</head>
+
+<body class="{% block bodyClasses %}{% endblock %}">
+<div>
+    {% block navigation %}{% endblock %}
+</div>
+<div class="stage">
+    {% block body %}{% endblock %}
+    <footer id="footer">powered by cucuwiki</footer>
+</div>
+</body>
+
+</html>

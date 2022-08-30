@@ -1,0 +1,5 @@
+{% extends "base.html.peb" %}
+
+{% block body %}
+Not found: {{ message }}
+{% endblock %}

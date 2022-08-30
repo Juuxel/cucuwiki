@@ -1,0 +1,3 @@
+<nav id="sidebar">
+    <a class="wiki-name" href="/wiki/{{ frontPage }}">{{ wikiName }}</a>
+</nav>

@@ -1,0 +1,36 @@
+[versions]
+# Web
+javalin = "4.6.4"
+flexmark = "0.64.0"
+pebble = "3.1.5"
+
+# Logging
+slf4j = "2.0.0"
+logback = "1.4.0"
+
+# Data storage
+jgit = "6.2.0.202206071550-r"
+
+# Config and serialisation
+nightconfig = "3.6.5"
+kotlinx-serialization = "1.4.0"
+
+# Testing
+spek = "2.0.19"
+atrium = "0.18.0"
+
+[libraries]
+javalin = { module = "io.javalin:javalin", version.ref = "javalin" }
+nightconfig-toml = { module = "com.electronwill.night-config:toml", version.ref = "nightconfig" }
+jgit = { module = "org.eclipse.jgit:org.eclipse.jgit", version.ref = "jgit" }
+slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+flexmark-core = { module = "com.vladsch.flexmark:flexmark", version.ref = "flexmark" }
+pebble = { module = "io.pebbletemplates:pebble", version.ref = "pebble" }
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+spek-dsl-jvm = { module = "org.spekframework.spek2:spek-dsl-jvm", version.ref = "spek" }
+spek-runner-junit5 = { module = "org.spekframework.spek2:spek-runner-junit5", version.ref = "spek" }
+atrium = { module = "ch.tutteli.atrium:atrium-fluent-en_GB", version.ref = "atrium" }
+
+[bundles]
+flexmark = ["flexmark-core"]
