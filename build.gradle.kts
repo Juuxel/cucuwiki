@@ -126,6 +126,8 @@ val browserify = tasks.register<NpxTask>("browserify") {
         }
         args
     })
+    inputs.dir(tsOutput)
+    outputs.file(tsBundled)
 }
 
 tasks.processResources {
