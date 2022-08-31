@@ -6,4 +6,7 @@
 
 <nav id="sidebar" class="top-level-card">
     <a class="wiki-name" href="/wiki/{{ frontPage }}">{{ wikiName }}</a>
+    {% autoescape false %}
+    {{ pageTree }}
+    {% endautoescape %}
 </nav>

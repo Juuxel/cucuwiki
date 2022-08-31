@@ -7,23 +7,19 @@
 package juuxel.cucuwiki
 
 import io.javalin.Javalin
-import io.javalin.http.HttpCode
 import juuxel.cucuwiki.config.ConfigManager
 import juuxel.cucuwiki.endpoint.Endpoints
-import juuxel.cucuwiki.endpoint.wiki.GetAction
-import juuxel.cucuwiki.endpoint.wiki.PostAction
 import juuxel.cucuwiki.git.WikiRepository
-import juuxel.cucuwiki.page.Page
 import juuxel.cucuwiki.page.PageRenderer
+import juuxel.cucuwiki.page.PageTreeRenderer
 import juuxel.cucuwiki.util.logger
 import java.nio.charset.Charset
 import java.nio.file.Path
-import kotlin.io.path.exists
 
 class Cucuwiki(val runDirectory: Path) {
     private val configManager = ConfigManager(runDirectory)
     val settings get() = configManager.settings
-    val repository = WikiRepository(settings)
+    val repository = WikiRepository(this)
     val charset: Charset = try {
         Charset.forName(settings.storage.encoding)
     } catch (e: Exception) {
@@ -31,6 +27,7 @@ class Cucuwiki(val runDirectory: Path) {
         Charsets.UTF_8
     }
     val pageRenderer = PageRenderer(this)
+    val treeRenderer = PageTreeRenderer(this)
 
     fun launch() {
         val app = Javalin.create { config ->

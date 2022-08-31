@@ -16,6 +16,7 @@ import java.io.StringWriter
 import kotlin.io.path.exists
 
 class PageRenderer(private val app: Cucuwiki) {
+    private val context = PageContext(app)
     private val engine: PebbleEngine = PebbleEngine.Builder()
         .loader(ClasspathLoader().also {
             it.prefix = "templates"
@@ -42,80 +43,45 @@ class PageRenderer(private val app: Cucuwiki) {
         return writer.toString()
     }
 
-    private fun breadcrumbify(path: String): String = buildString {
-        val parts = path.split('/')
-        for ((i, component) in parts.withIndex()) {
-            append("<span class=\"breadcrumb-slash\"></span>")
-
-            if (i == parts.lastIndex) {
-                append(component)
-            } else {
-                append("<a href=\"/wiki/")
-                append(parts.slice(0..i).joinToString(separator = "/"))
-                append("\">")
-                append(component)
-                append("</a>")
-            }
-        }
-    }
-
-    private fun context(vararg pairs: Pair<String, Any>): Map<String, Any> = buildMap {
-        put("wikiName", app.settings.content.wikiName)
-        put("frontPage", app.settings.content.frontPage)
-
-        for ((key, value) in pairs) {
-            put(key, value)
-        }
-    }
-
-    private fun currentContents(path: String): Map<String, Any> {
-        val filePath = app.repository.resolveFile("$path.json")
-        if (filePath != null && filePath.exists()) {
-            val page = Page.load(filePath, app.charset) ?: return emptyMap()
-            return mapOf(
-                "currentTitle" to page.title,
-                "currentContent" to page.content,
-            )
-        }
-
-        return emptyMap()
-    }
-
     fun renderView(path: String, page: Page): String =
         render(
             "view",
-            context(
-                "breadcrumbs" to breadcrumbify(path),
-                "title" to page.title,
-                "markdown" to renderMarkdown(page.content),
-                "articlePath" to path,
-            )
+            context.create {
+                pageTree()
+                breadcrumbs(path)
+                put("title", page.title)
+                put("markdown", renderMarkdown(page.content))
+                put("articlePath", path)
+            }
         )
 
     fun renderEdit(path: String): String =
         render(
             "edit",
-            context(
-                "breadcrumbs" to breadcrumbify(path),
-                "title" to "Editing /$path",
-                "articlePath" to path,
-            ) + currentContents(path)
+            context.create {
+                pageTree()
+                breadcrumbs(path)
+                currentContents(path)
+                put("title", "Editing /$path")
+                put("articlePath", path)
+            }
         )
 
     fun genericNotFound(message: String): String =
         render(
             "404",
-            context(
-                "message" to message,
-            )
+            context.create {
+                put("message", message)
+            }
         )
 
     fun articleNotFound(path: String): String =
         render(
             "missingarticle",
-            context(
-                "breadcrumbs" to breadcrumbify(path),
-                "articlePath" to path,
-            )
+            context.create {
+                pageTree()
+                breadcrumbs(path)
+                put("articlePath", path)
+            }
         )
 }

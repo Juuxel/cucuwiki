@@ -6,7 +6,7 @@
 
 package juuxel.cucuwiki.git
 
-import juuxel.cucuwiki.config.Settings
+import juuxel.cucuwiki.Cucuwiki
 import juuxel.cucuwiki.util.logger
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.errors.GitAPIException
@@ -14,17 +14,17 @@ import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
 import java.nio.file.Path
 
-class WikiRepository(config: Settings, runDirectory: Path) {
-    private val directory: Path
+class WikiRepository(private val app: Cucuwiki) {
+    val directory: Path
     private val gitRepo: Repository
     private val git: Git
 
     init {
-        val basePath = Path.of(config.storage.repositoryPath)
+        val basePath = Path.of(app.settings.storage.repositoryPath)
         directory = if (basePath.isAbsolute) {
             basePath
         } else {
-            runDirectory.resolve(basePath).toAbsolutePath()
+            app.runDirectory.resolve(basePath).toAbsolutePath()
         }
 
         val gitDir = directory.resolve(".git")
@@ -79,6 +79,7 @@ class WikiRepository(config: Settings, runDirectory: Path) {
             }
             commit.setAuthor(author, "$author@cucuwiki")
             commit.call()
+            app.treeRenderer.invalidate()
         } catch (e: GitAPIException) {
             LOGGER.error("Could not commit! (path: {}, author: {}, message: {})", path, author, message, e)
         }
