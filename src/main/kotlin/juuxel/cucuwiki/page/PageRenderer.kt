@@ -51,7 +51,7 @@ class PageRenderer(private val app: Cucuwiki) {
                 breadcrumbs(path)
                 put("title", page.title)
                 put("markdown", renderMarkdown(page.content))
-                put("articlePath", path)
+                articlePath(path)
             }
         )
 
@@ -63,7 +63,7 @@ class PageRenderer(private val app: Cucuwiki) {
                 breadcrumbs(path)
                 currentContents(path)
                 put("title", "Editing /$path")
-                put("articlePath", path)
+                articlePath(path)
             }
         )
 
@@ -81,7 +81,7 @@ class PageRenderer(private val app: Cucuwiki) {
             context.create {
                 pageTree()
                 breadcrumbs(path)
-                put("articlePath", path)
+                articlePath(path)
             }
         )
 }

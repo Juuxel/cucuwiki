@@ -14,7 +14,7 @@ class WikiLink(target: String, private val text: String) {
 
     fun print(app: Cucuwiki): String = buildString {
         val red = app.repository.directory.resolve("$target.json").notExists()
-        append("<a href=\"/wiki/$target\"")
+        append("<a href=\"/wiki/${UrlEncoding.encodePath(target)}\"")
         if (red) {
             append(" class=\"red-link\"")
         }

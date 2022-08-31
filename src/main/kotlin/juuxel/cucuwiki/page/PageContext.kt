@@ -7,6 +7,7 @@
 package juuxel.cucuwiki.page
 
 import juuxel.cucuwiki.Cucuwiki
+import juuxel.cucuwiki.util.UrlEncoding
 import juuxel.cucuwiki.util.WikiLink
 import kotlin.io.path.exists
 
@@ -60,6 +61,11 @@ class PageContext(private val app: Cucuwiki) {
                     append(link.print(app))
                 }
             }
+        }
+
+        fun articlePath(path: String) {
+            put("articlePath", path)
+            put("articlePathLink", UrlEncoding.encodePath(path))
         }
     }
 }

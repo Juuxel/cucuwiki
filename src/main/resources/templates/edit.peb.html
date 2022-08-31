@@ -4,7 +4,7 @@
 <h1 class="article-title">
 Editing {{ articlePath }}
 </h1>
-<form action="/wiki/{{ articlePath }}?do=update" method="post">
+<form action="/wiki/{{ articlePathLink }}?do=update" method="post">
     <label for="title-box">Title:</label>
     <input type="text" name="title" id="title-box" placeholder="{{ articlePath }}" value="{{ currentTitle }}">
     <div class="edit-area">
@@ -16,7 +16,7 @@ Editing {{ articlePath }}
     </div>
     <div class="button-bar horizontal" id="edit-button-bar">
         <button type="submit">Save</button>
-        <a href="/wiki/{{ articlePath }}?do=view" class="button-link"><button type="button">Cancel</button></a>
+        <a href="/wiki/{{ articlePathLink }}?do=view" class="button-link"><button type="button">Cancel</button></a>
     </div>
 </form>
 {% endblock %}

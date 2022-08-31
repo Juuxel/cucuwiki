@@ -10,9 +10,13 @@ import io.javalin.http.Context
 import io.javalin.http.HttpCode
 import juuxel.cucuwiki.Cucuwiki
 import juuxel.cucuwiki.endpoint.Endpoint
+import juuxel.cucuwiki.util.UrlEncoding
 
 class FrontPage(private val app: Cucuwiki) : Endpoint {
     override fun handle(ctx: Context) {
-        ctx.redirect("/wiki/${app.settings.content.frontPage}", HttpCode.SEE_OTHER.status)
+        ctx.redirect(
+            "/wiki/${UrlEncoding.encodePath(app.settings.content.frontPage)}",
+            HttpCode.SEE_OTHER.status
+        )
     }
 }
