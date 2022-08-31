@@ -9,6 +9,9 @@ package juuxel.cucuwiki
 import io.javalin.Javalin
 import io.javalin.http.HttpCode
 import juuxel.cucuwiki.config.ConfigManager
+import juuxel.cucuwiki.endpoint.Endpoints
+import juuxel.cucuwiki.endpoint.wiki.GetAction
+import juuxel.cucuwiki.endpoint.wiki.PostAction
 import juuxel.cucuwiki.git.WikiRepository
 import juuxel.cucuwiki.page.Page
 import juuxel.cucuwiki.page.PageRenderer
@@ -37,85 +40,8 @@ class Cucuwiki(val runDirectory: Path) {
             }
         }
 
-        // TODO: Handle internal server error
         app.start(settings.networking.port)
-        app.get("/") { ctx ->
-            ctx.redirect("/wiki/${settings.content.frontPage}", HttpCode.SEE_OTHER.status)
-        }
-        app.get("/wiki/<name>") { ctx ->
-            val action = ctx.queryParam("do")?.let(GetAction::byName) ?: GetAction.VIEW
-            val name = ctx.pathParam("name")
-
-            when (action) {
-                GetAction.VIEW -> {
-                    val path = repository.resolveFile("$name.json")
-
-                    if (path == null) {
-                        ctx.status(HttpCode.FORBIDDEN)
-                        // TODO: Forbidden page
-                        val page = pageRenderer.genericNotFound(name)
-                        ctx.html(page)
-                        return@get
-                    }
-
-                    val page = if (path.exists()) {
-                        Page.load(path, charset)
-                    } else {
-                        null
-                    }
-
-                    val html: String = if (page != null) {
-                        pageRenderer.renderView(name, page)
-                    } else {
-                        ctx.status(HttpCode.NOT_FOUND)
-                        pageRenderer.articleNotFound(name)
-                    }
-                    ctx.html(html)
-                }
-
-                GetAction.EDIT -> {
-                    val html = pageRenderer.renderEdit(name)
-                    ctx.html(html)
-                }
-            }
-        }
-        app.post("/wiki/<name>") { ctx ->
-            val action = ctx.queryParam("do")?.let(PostAction::byName) ?: PostAction.UPDATE
-            val name = ctx.pathParam("name")
-
-            when (action) {
-                PostAction.UPDATE -> {
-                    val content = ctx.formParam("article_content")
-                    if (content != null) {
-                        val path = repository.resolveFile("$name.json")
-
-                        if (path != null) {
-                            val existing = if (path.exists()) {
-                                Page.load(path, charset)
-                            } else {
-                                null
-                            }
-
-                            val page = Page(
-                                ctx.formParam("title") ?: existing?.title ?: name,
-                                content
-                            )
-                            page.save(path, charset)
-                            repository.commitFile("$name.json", "root", null)
-                            ctx.redirect("/wiki/$name?do=view", HttpCode.SEE_OTHER.status)
-                        } else {
-                            ctx.status(HttpCode.FORBIDDEN)
-                            // TODO: Forbidden page
-                            val page = pageRenderer.genericNotFound(name)
-                            ctx.html(page)
-                        }
-                    } else {
-                        ctx.status(HttpCode.BAD_REQUEST)
-                        ctx.result("POST request missing article_content")
-                    }
-                }
-            }
-        }
+        Endpoints(this).apply(app)
     }
 
     companion object {

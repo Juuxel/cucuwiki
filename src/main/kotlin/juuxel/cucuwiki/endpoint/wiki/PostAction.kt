@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package juuxel.cucuwiki
+package juuxel.cucuwiki.endpoint.wiki
 
 enum class PostAction {
     UPDATE,
