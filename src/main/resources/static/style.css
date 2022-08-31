@@ -234,3 +234,17 @@ button:disabled {
     display: grid;
     text-decoration: none;
 }
+
+.tree {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.7em;
+}
+
+.tree:not(.border-contents) {
+    margin-top: 2ex;
+}
+
+.titled-border .tree.border-contents {
+    padding: 0.7em;
+}
