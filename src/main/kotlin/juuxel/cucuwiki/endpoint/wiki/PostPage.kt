@@ -32,10 +32,10 @@ class PostPage(private val app: Cucuwiki) : Endpoint {
                             null
                         }
 
-                        val page = Page(
-                            ctx.formParam("title") ?: existing?.title ?: name,
-                            content
-                        )
+                        var title = ctx.formParam("title") ?: existing?.title ?: name
+                        if (title.isEmpty()) title = name
+
+                        val page = Page(title, content)
                         page.save(path, app.charset)
                         app.repository.commitFile("$name.json", "root", null)
                         ctx.redirect("/wiki/$name?do=view", HttpCode.SEE_OTHER.status)
