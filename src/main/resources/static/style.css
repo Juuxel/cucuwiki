@@ -181,3 +181,8 @@ button:disabled {
 .titled-border .border-contents {
     grid-area: 1 / 1;
 }
+
+#preview-holder {
+    /* Hide the preview if JS isn't enabled */
+    visibility: hidden;
+}

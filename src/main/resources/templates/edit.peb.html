@@ -5,10 +5,10 @@
 Editing {{ articlePath }}
 </h1>
 <div class="edit-area">
-    <textarea aria-label="Editor"></textarea>
-    <div class="titled-border">
+    <textarea id="editor" aria-label="Editor"></textarea>
+    <div class="titled-border" id="preview-holder">
         <div class="border-title">Preview</div>
-        <div class="border-contents">foo</div>
+        <div class="border-contents" id="preview-area"></div>
     </div>
 </div>
 {% endblock %}

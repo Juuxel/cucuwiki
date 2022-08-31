@@ -92,21 +92,44 @@ tasks.assemble {
     dependsOn(jarInJar)
 }
 
-val tsOutput = file("build/scripts/script.js")
+val tsOutput = file("build/chonky_scripts")
+val tsBundled = file("build/scripts/script.js")
 
 val npmCi = tasks.getByName("npm_ci") {
+    inputs.file("package.json")
+    inputs.file("package-lock.json")
     outputs.dir("node_modules")
 }
 val compileTypeScript = tasks.register<NpxTask>("compileTypeScript") {
     dependsOn(npmCi)
     command.set("tsc")
     inputs.dir(file("src/main/typescript"))
-    outputs.file(tsOutput)
+    inputs.file(file("tsconfig.json"))
+    outputs.dir(tsOutput)
+}
+val browserify = tasks.register<NpxTask>("browserify") {
+    dependsOn(compileTypeScript)
+    command.set("browserify")
+    args.set(provider {
+        val args = arrayListOf(
+            "-p",
+            "tinyify",
+            "-o",
+            tsBundled.absolutePath,
+            "-d",
+        )
+        for (file in fileTree(tsOutput)) {
+            if (file.name.endsWith(".js")) {
+                args += file.absolutePath
+            }
+        }
+        args
+    })
 }
 
 tasks.processResources {
-    dependsOn(compileTypeScript)
-    from(tsOutput) {
+    dependsOn(browserify)
+    from(tsBundled) {
         into("static")
     }
 }
