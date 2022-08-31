@@ -15,6 +15,7 @@ import juuxel.cucuwiki.endpoint.wiki.PostPage
 class Endpoints(app: Cucuwiki) {
     private val get: Map<String, Endpoint> = mapOf(
         "/" to FrontPage(app),
+        "/wiki" to FrontPage(app),
         "/wiki/<name>" to GetPage(app),
     )
     private val post: Map<String, Endpoint> = mapOf(
