@@ -30,7 +30,7 @@ final class JarInJarConfig {
         if (in != null) {
             try (in; Reader reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
                 Properties properties = new Properties();
-                properties.load(in);
+                properties.load(reader);
                 String mainClass = getOrThrow(properties, "main-class");
                 List<String> jarNames = List.of(getOrThrow(properties, "jar-names").split(", *"));
                 return new JarInJarConfig(jarNames, mainClass);
