@@ -1,0 +1,6 @@
+{
+  "name": "cucuwiki",
+  "dependencies": {
+    "typescript": "^4.7"
+  }
+}

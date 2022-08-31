@@ -1,9 +1,15 @@
+import com.github.gradle.node.npm.task.NpxTask
+import org.gradle.internal.xml.XmlTransformer
+import org.gradle.plugins.ide.idea.model.IdeaModule
+import org.gradle.plugins.ide.idea.model.IdeaModuleIml
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Properties
 
 plugins {
     kotlin("jvm") version "1.7.10"
     kotlin("plugin.serialization") version "1.7.10"
+    id("com.github.node-gradle.node") version "3.4.0"
+    idea
 }
 
 group = "org.example"
@@ -82,5 +88,25 @@ tasks.register<Jar>("jarInJar") {
     // Set up main class
     manifest {
         attributes("Main-Class" to "juuxel.jarinjar.JarInJarLauncher")
+    }
+}
+
+val tsOutput = file("build/scripts/script.js")
+
+tasks.register<NpxTask>("compileTypeScript") {
+    command.set("tsc")
+    inputs.dir(file("src/main/typescript"))
+    outputs.file(tsOutput)
+}
+
+tasks.processResources {
+    from(tsOutput) {
+        into("static")
+    }
+}
+
+idea {
+    module {
+        sourceDirs.add(file("src/main/typescript"))
     }
 }

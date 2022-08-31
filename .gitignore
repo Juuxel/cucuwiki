@@ -2,3 +2,4 @@
 .idea/
 /build/
 /run/
+node_modules/
