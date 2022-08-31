@@ -7,6 +7,7 @@ import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.data.MutableDataSet
 import juuxel.cucuwiki.Cucuwiki
 import java.io.StringWriter
+import kotlin.io.path.exists
 
 class PageRenderer(private val app: Cucuwiki) {
     private val engine: PebbleEngine = PebbleEngine.Builder()
@@ -51,6 +52,19 @@ class PageRenderer(private val app: Cucuwiki) {
         }
     }
 
+    private fun currentContents(path: String): Map<String, Any> {
+        val filePath = app.repository.resolveFile("$path.json")
+        if (filePath != null && filePath.exists()) {
+            val page = Page.load(filePath, app.charset) ?: return emptyMap()
+            return mapOf(
+                "currentTitle" to page.title,
+                "currentContent" to page.content,
+            )
+        }
+
+        return emptyMap()
+    }
+
     fun renderView(path: String, page: Page): String =
         render(
             "view",
@@ -69,7 +83,7 @@ class PageRenderer(private val app: Cucuwiki) {
                 "breadcrumbs" to breadcrumbify(path),
                 "title" to "Editing /$path",
                 "articlePath" to path,
-            )
+            ) + currentContents(path)
         )
 
     fun genericNotFound(message: String): String =

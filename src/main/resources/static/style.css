@@ -55,7 +55,8 @@ button {
     color: var(--text-color);
     border: solid 1px;
     border-radius: 0.3em;
-    border-color: var(--button-border)
+    border-color: var(--button-border);
+    padding: 0.5em;
 }
 
 button:hover {
@@ -183,4 +184,27 @@ button:disabled {
 #preview-holder {
     /* Hide the preview if JS isn't enabled */
     visibility: hidden;
+}
+
+.button-bar {
+    display: grid;
+    grid-gap: 0.2em;
+}
+
+.button-bar.horizontal {
+    grid-template-columns: repeat(5, minmax(7em, min-content));
+    grid-template-rows: 2em;
+}
+
+.button-bar.vertical {
+    grid-template-columns: 1fr;
+}
+
+#edit-button-bar {
+    margin-top: 1ex;
+}
+
+.button-link {
+    display: grid;
+    text-decoration: none;
 }

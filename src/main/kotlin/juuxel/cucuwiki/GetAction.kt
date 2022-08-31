@@ -1,11 +1,12 @@
 package juuxel.cucuwiki
 
-enum class PageAction {
-    VIEW, EDIT,
+enum class GetAction {
+    VIEW,
+    EDIT,
     ;
 
     companion object {
-        fun byName(name: String): PageAction? =
+        fun byName(name: String): GetAction? =
             values().firstOrNull { it.name.equals(name, ignoreCase = true) }
     }
 }
