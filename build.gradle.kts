@@ -148,4 +148,7 @@ license {
     tasks.register("ts") {
         files.from(fileTree("src/main/typescript"))
     }
+
+    // The headers will end up in the final files and clutter it.
+    exclude("**/*.peb.html")
 }
