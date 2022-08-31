@@ -7,6 +7,7 @@ plugins {
     kotlin("plugin.serialization") version "1.7.10"
     id("com.github.node-gradle.node") version "3.4.0"
     idea
+    id("org.cadixdev.licenser") version "0.6.1"
 }
 
 group = "org.example"
@@ -137,5 +138,14 @@ tasks.processResources {
 idea {
     module {
         sourceDirs.add(file("src/main/typescript"))
+    }
+}
+
+license {
+    header(file("HEADER.txt"))
+    style.put("ts", "BLOCK_COMMENT")
+
+    tasks.register("ts") {
+        files.from(fileTree("src/main/typescript"))
     }
 }
