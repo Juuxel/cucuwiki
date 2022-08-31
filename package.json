@@ -12,5 +12,12 @@
   "devDependencies": {
     "browserify": "^17.0.0",
     "tinyify": "^3.1.0"
+  },
+  "overrides": {
+    "tinyify": {
+      "uglifyify": {
+        "terser": ">=4.8.1"
+      }
+    }
   }
 }
