@@ -11,6 +11,9 @@ import com.electronwill.nightconfig.core.UnmodifiableCommentedConfig
 import com.electronwill.nightconfig.core.conversion.ObjectConverter
 import com.electronwill.nightconfig.core.file.CommentedFileConfig
 import com.electronwill.nightconfig.core.io.WritingMode
+import juuxel.cucuwiki.config.postprocess.CommentPostprocessor
+import juuxel.cucuwiki.config.postprocess.NormalizePathPostprocessor
+import juuxel.cucuwiki.config.postprocess.Postprocessing
 import juuxel.cucuwiki.util.logger
 import java.nio.file.Path
 
@@ -19,7 +22,9 @@ class ConfigManager(runDirectory: Path) {
         val default = Settings()
         val config = CommentedConfig.inMemory()
         ObjectConverter().toConfig(default, config)
-        addDefaultComments(default, config)
+        val postprocessing = Postprocessing()
+        postprocessing.add(CommentPostprocessor)
+        postprocessing.apply(default, config)
         config
     }
 
@@ -45,6 +50,9 @@ class ConfigManager(runDirectory: Path) {
 
         val result = Settings()
         ObjectConverter().toObject(fileConfig, result)
+        val postprocessing = Postprocessing()
+        postprocessing.add(NormalizePathPostprocessor)
+        postprocessing.apply(result, fileConfig)
 
         // Save with possible new settings
         fileConfig.save()

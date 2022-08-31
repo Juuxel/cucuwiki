@@ -7,6 +7,8 @@
 package juuxel.cucuwiki.config
 
 import com.electronwill.nightconfig.core.conversion.ForceBreakdown
+import juuxel.cucuwiki.config.postprocess.Comment
+import juuxel.cucuwiki.config.postprocess.NormalizePath
 
 class Settings {
     @Comment("Settings related to networking.")
@@ -39,6 +41,7 @@ class Settings {
         var wikiName = "My Cucuwiki"
 
         @Comment("The path to the front page.")
+        @NormalizePath
         var frontPage = "home"
     }
 }
