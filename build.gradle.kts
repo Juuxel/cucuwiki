@@ -65,7 +65,7 @@ val createJarInJarConfig by tasks.register("createJarInJarConfig") {
 
 evaluationDependsOn(":jar-in-jar")
 
-tasks.register<Jar>("jarInJar") {
+val jarInJar = tasks.register<Jar>("jarInJar") {
     archiveClassifier.set("bundled")
 
     // Set up JAR-in-JAR
@@ -91,15 +91,22 @@ tasks.register<Jar>("jarInJar") {
     }
 }
 
+tasks.assemble {
+    dependsOn(jarInJar)
+}
+
 val tsOutput = file("build/scripts/script.js")
 
-tasks.register<NpxTask>("compileTypeScript") {
+val npmCi = tasks.getByName("npm_ci")
+val compileTypeScript = tasks.register<NpxTask>("compileTypeScript") {
+    dependsOn(npmCi)
     command.set("tsc")
     inputs.dir(file("src/main/typescript"))
     outputs.file(tsOutput)
 }
 
 tasks.processResources {
+    dependsOn(compileTypeScript)
     from(tsOutput) {
         into("static")
     }
