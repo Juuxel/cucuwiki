@@ -1,7 +1,4 @@
 import com.github.gradle.node.npm.task.NpxTask
-import org.gradle.internal.xml.XmlTransformer
-import org.gradle.plugins.ide.idea.model.IdeaModule
-import org.gradle.plugins.ide.idea.model.IdeaModuleIml
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Properties
 
