@@ -4,6 +4,13 @@ A simple wiki written in Kotlin and TypeScript.
 
 Still very WIP, don't expect anything :)
 
+## Building
+Requirements:
+- Java 11
+- Node.js 17
+
+To build, run `gradlew build` on the command line.
+
 ## Credits
 - Server
   - [Javalin](https://javalin.io) for the HTTP code
