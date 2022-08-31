@@ -174,7 +174,7 @@ button:disabled {
 }
 
 .titled-border .border-contents {
-    padding: 1em;
+    padding: 0 1em;
 }
 
 .titled-border .border-title,
