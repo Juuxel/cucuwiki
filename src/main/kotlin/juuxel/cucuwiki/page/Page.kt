@@ -11,6 +11,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import java.nio.charset.Charset
 import java.nio.file.Path
+import kotlin.io.path.createDirectories
 import kotlin.io.path.notExists
 import kotlin.io.path.readText
 import kotlin.io.path.writeText
@@ -22,6 +23,7 @@ data class Page(
 ) {
     fun save(path: Path, charset: Charset) {
         try {
+            path.parent.createDirectories()
             val json = JSON.encodeToString(serializer(), this)
             path.writeText(json, charset)
         } catch (e: Exception) {

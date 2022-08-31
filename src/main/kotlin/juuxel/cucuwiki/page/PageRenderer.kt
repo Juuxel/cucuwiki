@@ -43,9 +43,19 @@ class PageRenderer(private val app: Cucuwiki) {
     }
 
     private fun breadcrumbify(path: String): String = buildString {
-        for (component in path.split('/')) {
+        val parts = path.split('/')
+        for ((i, component) in parts.withIndex()) {
             append("<span class=\"breadcrumb-slash\"></span>")
-            append(component)
+
+            if (i == parts.lastIndex) {
+                append(component)
+            } else {
+                append("<a href=\"/wiki/")
+                append(parts.slice(0..i).joinToString(separator = "/"))
+                append("\">")
+                append(component)
+                append("</a>")
+            }
         }
     }
 
