@@ -67,7 +67,7 @@ a {
     text-decoration: none;
 }
 
-a:hover {
+a:hover:not(.button-link) {
     text-decoration: underline;
 }
 
@@ -240,7 +240,6 @@ button:disabled {
 
 .button-link {
     display: grid;
-    text-decoration: none;
 }
 
 .tree {
