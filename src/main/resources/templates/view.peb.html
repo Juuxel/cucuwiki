@@ -11,9 +11,11 @@
     <h1 class="article-title">
             {{ title }}
     </h1>
+    <div class="body-text">
     {% autoescape false %}
     {{ markdown }}
     {% endautoescape %}
+    </div>
 </article>
 {% endblock %}
 
