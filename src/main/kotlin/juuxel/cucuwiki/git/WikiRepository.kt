@@ -14,12 +14,19 @@ import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
 import java.nio.file.Path
 
-class WikiRepository(config: Settings) {
-    private val directory: Path = Path.of(config.storage.repositoryPath).toAbsolutePath()
+class WikiRepository(config: Settings, runDirectory: Path) {
+    private val directory: Path
     private val gitRepo: Repository
     private val git: Git
 
     init {
+        val basePath = Path.of(config.storage.repositoryPath)
+        directory = if (basePath.isAbsolute) {
+            basePath
+        } else {
+            runDirectory.resolve(basePath).toAbsolutePath()
+        }
+
         val gitDir = directory.resolve(".git")
 
         gitRepo = FileRepositoryBuilder()
