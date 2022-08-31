@@ -47,6 +47,7 @@ a:link, a:visited {
 
 h1 {
     font-weight: 400;
+    font-size: 1.5rem;
 }
 
 button {
@@ -101,22 +102,19 @@ button:disabled {
     border-image: linear-gradient(to right, transparent, var(--main-area-border) 5%, var(--main-area-border) 95%, transparent) 1;
 }
 
-.readable-area, #sidebar {
+.top-level-card {
     background-color: var(--background);
     border: solid 1px var(--main-area-border);
+    padding: 0.5em;
 }
 
 .readable-area {
     padding: 1em;
 }
 
-#sidebar {
-    padding: 0.5em;
-}
-
 .article-root {
     display: grid;
-    grid-template-columns: 12em auto;
+    grid-template-columns: 12em min-content 6em;
     grid-column-gap: 0.5em;
 }
 

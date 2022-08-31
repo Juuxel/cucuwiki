@@ -10,3 +10,9 @@
     {% endautoescape %}
 </article>
 {% endblock %}
+
+{% block toolbox %}
+<div class="top-level-card toolbox">
+<a href="/wiki/{{ articlePath }}?do=edit" class="toolbox-button">edit</a>
+</div>
+{% endblock %}

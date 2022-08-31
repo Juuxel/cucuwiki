@@ -58,6 +58,7 @@ class PageRenderer(private val app: Cucuwiki) {
                 "breadcrumbs" to breadcrumbify(path),
                 "title" to page.title,
                 "markdown" to renderMarkdown(page.content),
+                "articlePath" to path,
             )
         )
 
