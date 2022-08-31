@@ -94,7 +94,9 @@ tasks.assemble {
 
 val tsOutput = file("build/scripts/script.js")
 
-val npmCi = tasks.getByName("npm_ci")
+val npmCi = tasks.getByName("npm_ci") {
+    outputs.dir("node_modules")
+}
 val compileTypeScript = tasks.register<NpxTask>("compileTypeScript") {
     dependsOn(npmCi)
     command.set("tsc")
