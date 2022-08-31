@@ -18,6 +18,7 @@
         --footer-color: #888888;
         --link-color: #1e88e5;
         --main-area-border: #BBBBBB;
+        --red-link-color: #CC0000;
     }
 }
 
@@ -33,6 +34,7 @@
         --footer-color: #888888;
         --link-color: #42a5f5;
         --main-area-border: #5F5F5F;
+        --red-link-color: #DD3333;
     }
 }
 
@@ -63,6 +65,10 @@ button {
 
 a:link, a:visited {
     color: var(--link-color);
+}
+
+a.red-link:link, a.red-link:visited {
+    color: var(--red-link-color);
 }
 
 h1 {

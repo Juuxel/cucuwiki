@@ -8,6 +8,7 @@ package juuxel.cucuwiki.page
 
 import juuxel.cucuwiki.Cucuwiki
 import juuxel.cucuwiki.util.Tree
+import juuxel.cucuwiki.util.WikiLink
 import juuxel.cucuwiki.util.logger
 import java.text.Collator
 import java.util.Locale
@@ -70,21 +71,10 @@ class PageTreeRenderer(private val app: Cucuwiki) {
         }
     }
 
-    private fun StringBuilder.appendEscaped(str: String) {
-        for (c in str) {
-            when (c) {
-                '&' -> append("&amp;")
-                '<' -> append("&lt;")
-                '>' -> append("&gt;")
-                else -> append(c)
-            }
-        }
-    }
-
     private fun StringBuilder.appendBranch(branch: Tree.Branch<TreeEntry>) {
-        append("<div class=\"titled-border\"><div class=\"border-title\"><a href=\"/wiki/${branch.value.path}\">")
-        appendEscaped(branch.value.title)
-        append("</a></div><div class=\"border-contents tree\">")
+        append("<div class=\"titled-border\"><div class=\"border-title\">")
+        append(WikiLink(branch.value.path, branch.value.title).print(app))
+        append("</div><div class=\"border-contents tree\">")
         for (child in branch) {
             when (child) {
                 is Tree.Branch -> {
@@ -100,9 +90,7 @@ class PageTreeRenderer(private val app: Cucuwiki) {
     }
 
     private fun StringBuilder.appendLeaf(leaf: Tree.Leaf<TreeEntry>) {
-        append("<a href=\"/wiki/${leaf.value.path}\">")
-        appendEscaped(leaf.value.title)
-        append("</a>")
+        append(WikiLink(leaf.value.path, leaf.value.title).print(app))
     }
 
     companion object {

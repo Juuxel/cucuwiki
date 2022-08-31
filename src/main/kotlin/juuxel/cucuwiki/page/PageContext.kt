@@ -7,6 +7,7 @@
 package juuxel.cucuwiki.page
 
 import juuxel.cucuwiki.Cucuwiki
+import juuxel.cucuwiki.util.WikiLink
 import kotlin.io.path.exists
 
 class PageContext(private val app: Cucuwiki) {
@@ -52,11 +53,11 @@ class PageContext(private val app: Cucuwiki) {
                 if (i == parts.lastIndex) {
                     append(component)
                 } else {
-                    append("<a href=\"/wiki/")
-                    append(parts.slice(0..i).joinToString(separator = "/"))
-                    append("\">")
-                    append(component)
-                    append("</a>")
+                    val link = WikiLink(
+                        target = parts.slice(0..i).joinToString(separator = "/"),
+                        text = component
+                    )
+                    append(link.print(app))
                 }
             }
         }
