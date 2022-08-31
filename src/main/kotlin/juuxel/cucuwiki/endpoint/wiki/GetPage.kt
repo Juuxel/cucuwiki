@@ -11,12 +11,13 @@ import io.javalin.http.HttpCode
 import juuxel.cucuwiki.Cucuwiki
 import juuxel.cucuwiki.endpoint.Endpoint
 import juuxel.cucuwiki.page.Page
+import juuxel.cucuwiki.util.PathNormalizer
 import kotlin.io.path.exists
 
 class GetPage(private val app: Cucuwiki) : Endpoint {
     override fun handle(ctx: Context) {
         val action = ctx.queryParam("do")?.let(GetAction::byName) ?: GetAction.VIEW
-        val name = ctx.pathParam("name")
+        val name = PathNormalizer.normalizeAndSanitize(ctx.pathParam("name"))
 
         when (action) {
             GetAction.VIEW -> {
