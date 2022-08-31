@@ -10,20 +10,20 @@ import java.nio.file.Path
 
 class ConfigManager(runDirectory: Path) {
     private val defaultConfig: UnmodifiableCommentedConfig by lazy {
-        val default = CwiConfig()
+        val default = Settings()
         val config = CommentedConfig.inMemory()
         ObjectConverter().toConfig(default, config)
         addDefaultComments(default, config)
         config
     }
 
-    val config = try {
+    val settings = try {
         load(runDirectory)
     } catch (e: Exception) {
         throw RuntimeException("Failed to load config", e)
     }
 
-    private fun load(runDirectory: Path): CwiConfig {
+    private fun load(runDirectory: Path): Settings {
         LOGGER.info("Loading config from {}", FILE_NAME)
         val fileConfig = CommentedFileConfig.builder(runDirectory.resolve(FILE_NAME))
             .charset(Charsets.UTF_8)
@@ -37,7 +37,7 @@ class ConfigManager(runDirectory: Path) {
 
         fileConfig.addDefaults(defaultConfig)
 
-        val result = CwiConfig()
+        val result = Settings()
         ObjectConverter().toObject(fileConfig, result)
 
         // Save with possible new settings

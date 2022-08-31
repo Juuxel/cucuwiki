@@ -2,7 +2,7 @@ package juuxel.cucuwiki.config
 
 import com.electronwill.nightconfig.core.conversion.ForceBreakdown
 
-class CwiConfig {
+class Settings {
     @Comment("Settings related to networking.")
     @field:ForceBreakdown // we need this for attaching the comments
     var networking: Networking = Networking()

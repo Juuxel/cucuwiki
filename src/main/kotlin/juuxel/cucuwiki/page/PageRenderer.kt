@@ -43,8 +43,8 @@ class PageRenderer(private val app: Cucuwiki) {
     }
 
     private fun context(vararg pairs: Pair<String, Any>): Map<String, Any> = buildMap {
-        put("wikiName", app.config.content.wikiName)
-        put("frontPage", app.config.content.frontPage)
+        put("wikiName", app.settings.content.wikiName)
+        put("frontPage", app.settings.content.frontPage)
 
         for ((key, value) in pairs) {
             put(key, value)

@@ -13,12 +13,12 @@ import kotlin.io.path.exists
 
 class Cucuwiki(val runDirectory: Path) {
     private val configManager = ConfigManager(runDirectory)
-    val config get() = configManager.config
-    val repository = WikiRepository(config)
+    val settings get() = configManager.settings
+    val repository = WikiRepository(settings)
     val charset: Charset = try {
-        Charset.forName(config.storage.encoding)
+        Charset.forName(settings.storage.encoding)
     } catch (e: Exception) {
-        LOGGER.error("Could not determine charset for encoding '{}', falling back to UTF-8", config.storage.encoding)
+        LOGGER.error("Could not determine charset for encoding '{}', falling back to UTF-8", settings.storage.encoding)
         Charsets.UTF_8
     }
     val pageRenderer = PageRenderer(this)
@@ -32,9 +32,9 @@ class Cucuwiki(val runDirectory: Path) {
         }
 
         // TODO: Handle internal server error
-        app.start(config.networking.port)
+        app.start(settings.networking.port)
         app.get("/") { ctx ->
-            ctx.redirect("wiki/${config.content.frontPage}", HttpCode.SEE_OTHER.status)
+            ctx.redirect("wiki/${settings.content.frontPage}", HttpCode.SEE_OTHER.status)
         }
         app.get("/wiki/<name>") { ctx ->
             val action = ctx.queryParam("do")?.let(PageAction::byName) ?: PageAction.VIEW

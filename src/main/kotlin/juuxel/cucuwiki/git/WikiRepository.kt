@@ -1,6 +1,6 @@
 package juuxel.cucuwiki.git
 
-import juuxel.cucuwiki.config.CwiConfig
+import juuxel.cucuwiki.config.Settings
 import juuxel.cucuwiki.util.logger
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.errors.GitAPIException
@@ -8,7 +8,7 @@ import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
 import java.nio.file.Path
 
-class WikiRepository(config: CwiConfig) {
+class WikiRepository(config: Settings) {
     private val directory: Path = Path.of(config.storage.repositoryPath).toAbsolutePath()
     private val gitRepo: Repository
     private val git: Git
