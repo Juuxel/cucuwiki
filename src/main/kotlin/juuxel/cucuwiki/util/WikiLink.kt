@@ -55,7 +55,7 @@ class WikiLink {
                         anchor.addClass("leaving-link")
                     } else {
                         val target = PathNormalizer.normalizeAndSanitize(ref)
-                        if (isRedLink(app, target)) {
+                        if (target.startsWith("wiki/") && isRedLink(app, target.removePrefix("wiki/"))) {
                             anchor.addClass("red-link")
                         }
                     }
