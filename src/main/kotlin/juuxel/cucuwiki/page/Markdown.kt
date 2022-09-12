@@ -16,7 +16,9 @@ import org.jsoup.safety.Cleaner
 import org.jsoup.safety.Safelist
 
 object Markdown {
-    private val SAFELIST = Safelist.relaxed().preserveRelativeLinks(true)
+    private val SAFELIST = Safelist.relaxed()
+        .preserveRelativeLinks(true)
+        .addAttributes(":all", "class")
     private val parser: Parser
     private val renderer: HtmlRenderer
 
