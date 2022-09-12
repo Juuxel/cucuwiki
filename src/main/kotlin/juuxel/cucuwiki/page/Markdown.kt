@@ -3,10 +3,14 @@ package juuxel.cucuwiki.page
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.data.MutableDataSet
+import juuxel.cucuwiki.Cucuwiki
+import juuxel.cucuwiki.util.WikiLink
 import org.jsoup.Jsoup
+import org.jsoup.safety.Cleaner
 import org.jsoup.safety.Safelist
 
 object Markdown {
+    private val SAFELIST = Safelist.relaxed().preserveRelativeLinks(true)
     private val parser: Parser
     private val renderer: HtmlRenderer
 
@@ -17,8 +21,22 @@ object Markdown {
             .build()
     }
 
-    fun render(markdown: String): String {
+    private fun getBaseUrl(app: Cucuwiki): String {
+        val url = app.settings.networking.baseUrl
+        if (url.isNotEmpty()) return url
+
+        return "http://localhost:${app.settings.networking.port}/"
+    }
+
+    fun render(app: Cucuwiki, markdown: String, wikiLinks: Boolean = true): String {
         val rendered = renderer.render(parser.parse(markdown))
-        return Jsoup.clean(rendered, Safelist.relaxed())
+        return if (wikiLinks) {
+            val doc = Jsoup.parseBodyFragment(rendered, getBaseUrl(app))
+            val clean = Cleaner(SAFELIST).clean(doc)
+            WikiLink.modifyLinks(app, clean)
+            clean.body().html()
+        } else {
+            Jsoup.clean(rendered, getBaseUrl(app), SAFELIST)
+        }
     }
 }

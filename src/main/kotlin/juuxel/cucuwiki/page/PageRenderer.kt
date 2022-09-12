@@ -33,7 +33,7 @@ class PageRenderer(private val app: Cucuwiki) {
                 pageTree()
                 breadcrumbs(path)
                 put("title", page.title)
-                put("markdown", Markdown.render(page.content))
+                put("markdown", Markdown.render(app, page.content))
                 articlePath(path)
             }
         )
