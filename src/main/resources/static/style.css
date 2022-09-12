@@ -283,6 +283,5 @@ button:disabled {
 }
 
 a.leaving-link::before {
-    content: '🌐';
-    margin-right: 0.2em;
+    content: '🌐 ';
 }
