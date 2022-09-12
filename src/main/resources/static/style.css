@@ -281,3 +281,8 @@ button:disabled {
 .current-page {
     font-weight: 600;
 }
+
+a.leaving-link::before {
+    content: '🌐';
+    margin-right: 0.2em;
+}
