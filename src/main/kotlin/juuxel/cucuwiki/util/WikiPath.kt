@@ -20,7 +20,7 @@ class WikiPath(private val components: List<String>) {
             components.subList(0, other.components.size) == other.components.subList(0, other.components.size))
 
     override fun equals(other: Any?): Boolean =
-        other is WikiPath && components == other.components
+        this === other || (other is WikiPath && components == other.components)
 
     override fun hashCode(): Int =
         components.hashCode()
