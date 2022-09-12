@@ -6,11 +6,9 @@
 
 import {marked} from "marked";
 import * as DOMPurify from "dompurify";
-import {escape} from "html-escaper";
 
 function sanitize(input: string): string {
-    // TODO: Is DOMPurify really required here?
-    return DOMPurify.sanitize(escape(input));
+    return DOMPurify.sanitize(input);
 }
 
 function updatePreview() {

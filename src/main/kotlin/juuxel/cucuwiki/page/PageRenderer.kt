@@ -8,12 +8,8 @@ package juuxel.cucuwiki.page
 
 import com.mitchellbosecke.pebble.PebbleEngine
 import com.mitchellbosecke.pebble.loader.ClasspathLoader
-import com.vladsch.flexmark.html.HtmlRenderer
-import com.vladsch.flexmark.parser.Parser
-import com.vladsch.flexmark.util.data.MutableDataSet
 import juuxel.cucuwiki.Cucuwiki
 import java.io.StringWriter
-import kotlin.io.path.exists
 
 class PageRenderer(private val app: Cucuwiki) {
     private val context = PageContext(app)
@@ -22,19 +18,6 @@ class PageRenderer(private val app: Cucuwiki) {
             it.prefix = "templates"
         })
         .build()
-    private val parser: Parser
-    private val renderer: HtmlRenderer
-
-    init {
-        val options = MutableDataSet()
-        parser = Parser.builder(options).build()
-        renderer = HtmlRenderer.builder(options)
-            .escapeHtml(true)
-            .build()
-    }
-
-    private fun renderMarkdown(markdown: String): String =
-        renderer.render(parser.parse(markdown))
 
     private fun render(templateName: String, context: Map<String, Any>): String {
         val template = engine.getTemplate("$templateName.peb.html")
@@ -50,7 +33,7 @@ class PageRenderer(private val app: Cucuwiki) {
                 pageTree()
                 breadcrumbs(path)
                 put("title", page.title)
-                put("markdown", renderMarkdown(page.content))
+                put("markdown", Markdown.render(page.content))
                 articlePath(path)
             }
         )

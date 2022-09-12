@@ -27,6 +27,7 @@ dependencies {
     implementation(libs.bundles.flexmark)
     implementation(libs.pebble)
     implementation(libs.kotlinx.serialization)
+    implementation(libs.jsoup)
 
     testImplementation(libs.atrium)
     testImplementation(libs.spek.dsl.jvm)

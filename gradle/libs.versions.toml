@@ -3,6 +3,7 @@
 javalin = "4.6.4"
 flexmark = "0.64.0"
 pebble = "3.1.5"
+jsoup = "1.15.3"
 
 # Logging
 slf4j = "2.0.0"
@@ -31,6 +32,7 @@ kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-
 spek-dsl-jvm = { module = "org.spekframework.spek2:spek-dsl-jvm", version.ref = "spek" }
 spek-runner-junit5 = { module = "org.spekframework.spek2:spek-runner-junit5", version.ref = "spek" }
 atrium = { module = "ch.tutteli.atrium:atrium-fluent-en_GB", version.ref = "atrium" }
+jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 
 [bundles]
 flexmark = ["flexmark-core"]
