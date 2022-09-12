@@ -40,7 +40,7 @@ object PathNormalizer {
         return path
     }
 
-    fun normalizeAndSanitize(path: String) =
+    fun normalizeAndSanitize(path: String): String =
         normalize(path).codePoints()
             .filter { !isBannedCharacter(it) }
             .mapToObj { Character.toString(it) }
