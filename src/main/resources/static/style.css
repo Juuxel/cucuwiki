@@ -209,7 +209,15 @@ button:disabled {
 }
 
 .titled-border .border-contents {
-    padding: 0 1em;
+    padding: 1em;
+}
+
+.titled-border .border-contents :first-child {
+    margin-top: 0;
+}
+
+.titled-border .border-contents :last-child {
+    margin-bottom: 0;
 }
 
 .titled-border .border-title,
