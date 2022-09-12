@@ -16,8 +16,8 @@ class WikiPath(private val components: List<String>) {
     }
 
     fun startsWith(other: WikiPath): Boolean =
-        components.size >= other.components.size &&
-            components.subList(0, other.components.size) == other.components.subList(0, other.components.size)
+        this == other || (components.size >= other.components.size &&
+            components.subList(0, other.components.size) == other.components.subList(0, other.components.size))
 
     override fun equals(other: Any?): Boolean =
         other is WikiPath && components == other.components

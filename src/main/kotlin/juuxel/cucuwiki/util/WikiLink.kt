@@ -12,15 +12,30 @@ import java.net.URI
 import java.net.URISyntaxException
 import kotlin.io.path.notExists
 
-class WikiLink(target: String, private val text: String) {
-    private val target: String = PathNormalizer.normalizeAndSanitize(target)
+class WikiLink {
+    private val target: String
+    private val text: String
 
-    fun print(app: Cucuwiki): String = buildString {
-        append("<a href=\"/wiki/${UrlEncoding.encodePath(target)}\"")
-        if (isRedLink(app, target)) {
-            append(" class=\"red-link\"")
+    constructor(target: String, text: String) {
+        this.target = PathNormalizer.normalizeAndSanitize(target)
+        this.text = text
+    }
+
+    constructor(target: WikiPath, text: String) {
+        this.target = target.toString()
+        this.text = text
+    }
+
+    fun print(app: Cucuwiki, classes: List<String> = emptyList()): String = buildString {
+        append("<a href=\"/wiki/${UrlEncoding.encodePath(target)}\" class=\"")
+        for (className in classes) {
+            append(' ')
+            append(className)
         }
-        append(">")
+        if (isRedLink(app, target)) {
+            append(" red-link")
+        }
+        append("\">")
         appendEscapedHtmlText(text)
         append("</a>")
     }

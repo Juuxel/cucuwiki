@@ -19,6 +19,7 @@
         --link-color: #1e88e5;
         --main-area-border: #BBBBBB;
         --red-link-color: #CC0000;
+        --tree-active-background: #EEEEEE;
     }
 }
 
@@ -35,6 +36,7 @@
         --link-color: #42a5f5;
         --main-area-border: #5F5F5F;
         --red-link-color: #DD3333;
+        --tree-active-background: #404040;
     }
 }
 
@@ -149,7 +151,7 @@ button:disabled {
 
 .article-root {
     display: grid;
-    grid-template-columns: 12em min-content 6em;
+    grid-template-columns: 15em min-content 6em;
     grid-column-gap: 0.5em;
 }
 
@@ -245,13 +247,37 @@ button:disabled {
 .tree {
     display: flex;
     flex-direction: column;
-    row-gap: 0.7em;
+    margin-bottom: 0.5em;
 }
 
-.tree:not(.border-contents) {
-    margin-top: 2ex;
+.tree-branch > summary, .tree-leaf {
+    padding: 0.25em 0 0.25em 0.5em;
 }
 
-.titled-border .tree.border-contents {
-    padding: 0.7em;
+.tree-branch > summary:hover, .tree-leaf:hover {
+    background-color: var(--tree-active-background);
+}
+
+.tree-branch > summary {
+    cursor: pointer;
+}
+
+.tree-leaf {
+    display: block;
+}
+
+.tree-branch-children {
+    margin-left: 0.9em;
+}
+
+#sidebar {
+    padding: 0;
+}
+
+.sidebar-header {
+    padding: 0.5em;
+}
+
+.current-page {
+    font-weight: 600;
 }

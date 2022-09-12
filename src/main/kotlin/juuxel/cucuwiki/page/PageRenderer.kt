@@ -30,7 +30,7 @@ class PageRenderer(private val app: Cucuwiki) {
         render(
             "view",
             context.create {
-                pageTree()
+                pageTree(path)
                 breadcrumbs(path)
                 put("title", page.title)
                 put("markdown", Markdown.render(app, page.content))
@@ -42,7 +42,7 @@ class PageRenderer(private val app: Cucuwiki) {
         render(
             "edit",
             context.create {
-                pageTree()
+                pageTree(path)
                 breadcrumbs(path)
                 currentContents(path)
                 put("title", "Editing /$path")
@@ -62,7 +62,7 @@ class PageRenderer(private val app: Cucuwiki) {
         render(
             "missingarticle",
             context.create {
-                pageTree()
+                pageTree(path)
                 breadcrumbs(path)
                 articlePath(path)
             }

@@ -38,8 +38,8 @@ class PageContext(private val app: Cucuwiki) {
             }
         }
 
-        fun pageTree() {
-            put("pageTree", app.treeRenderer.getTree())
+        fun pageTree(path: String) {
+            put("pageTree", app.treeRenderer.getTree(path))
         }
 
         fun breadcrumbs(path: String) {
