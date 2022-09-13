@@ -12,8 +12,9 @@ function sanitize(input: string): string {
     // Awful hack for Rollup - looks like it can't deal with
     // DOMPurify being a namespace but also a factory for an object.
 
+    /* eslint-disable @typescript-eslint/ban-ts-comment */
     // @ts-ignore
-    const purify: DOMPurifyI = DOMPurify.default;
+    const purify: DOMPurifyI = DOMPurify.default as DOMPurifyI;
     return purify.sanitize(input);
 }
 
