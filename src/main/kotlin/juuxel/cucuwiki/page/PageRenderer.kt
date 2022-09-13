@@ -67,4 +67,13 @@ class PageRenderer(private val app: Cucuwiki) {
                 articlePath(path)
             }
         )
+
+    fun renderEmbed(page: Page): String =
+        render(
+            "embed",
+            context.create {
+                put("title", page.title)
+                put("markdown", Markdown.render(app, page.content))
+            }
+        )
 }

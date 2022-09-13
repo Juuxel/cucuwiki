@@ -293,3 +293,13 @@ button:disabled {
 a.leaving-link::before {
     content: '🌐 ';
 }
+
+object[type="text/html"] {
+    width: 100%;
+}
+
+body.embed-body {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+}

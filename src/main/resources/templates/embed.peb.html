@@ -1,0 +1,11 @@
+{% extends "root.peb.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block rootBody %}
+<body class="embed-body">
+{% autoescape false %}
+{{ markdown }}
+{% endautoescape %}
+</body>
+{% endblock %}

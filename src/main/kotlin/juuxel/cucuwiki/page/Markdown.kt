@@ -14,11 +14,15 @@ import juuxel.cucuwiki.util.WikiLink
 import org.jsoup.Jsoup
 import org.jsoup.safety.Cleaner
 import org.jsoup.safety.Safelist
+import java.net.URI
+import java.net.URISyntaxException
 
 object Markdown {
     private val SAFELIST = Safelist.relaxed()
         .preserveRelativeLinks(true)
         .addAttributes(":all", "class")
+        .addTags("object")
+        .addAttributes("object", "data", "type", "width", "height", "usemap")
     private val parser: Parser
     private val renderer: HtmlRenderer
 
@@ -40,8 +44,25 @@ object Markdown {
         val rendered = renderer.render(parser.parse(markdown))
         return if (wikiLinks) {
             val doc = Jsoup.parseBodyFragment(rendered, getBaseUrl(app))
+
+            // Clean with cleaner
             val clean = Cleaner(SAFELIST).clean(doc)
+            // Add wiki and leaving link classes
             WikiLink.modifyLinks(app, clean)
+            // Clean objects with foreign URIs
+            for (element in clean.select("object")) {
+                val data = element.attr("data")
+                if (data.isBlank()) continue // doesn't refer to anything...
+                try {
+                    val uri = URI(data)
+                    if (uri.isAbsolute) { // foreign URI, let's remove it
+                        element.attributes().removeIgnoreCase("data")
+                    }
+                } catch (e: URISyntaxException) {
+                    // Invalid URI, we don't care
+                }
+            }
+            // Write
             clean.body().html()
         } else {
             Jsoup.clean(rendered, getBaseUrl(app), SAFELIST)

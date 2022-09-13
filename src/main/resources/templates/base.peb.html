@@ -1,13 +1,10 @@
-<!DOCTYPE HTML>
-<html lang="en">
+{% extends "root.peb.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Title{% endblock %}</title>
-    <link href="/static/style.css" rel="stylesheet">
+{% block head %}
     <script src="/static/script.js"></script>
-</head>
+{% endblock %}
 
+{% block rootBody %}
 <body class="{% block bodyClasses %}{% endblock %}">
 <div>
     {% block navigation %}{% endblock %}
@@ -20,5 +17,4 @@
 {% block toolbox %}{% endblock %}
 </div>
 </body>
-
-</html>
+{% endblock %}

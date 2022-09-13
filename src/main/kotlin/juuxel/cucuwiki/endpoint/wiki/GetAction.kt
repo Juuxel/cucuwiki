@@ -9,6 +9,7 @@ package juuxel.cucuwiki.endpoint.wiki
 enum class GetAction {
     VIEW,
     EDIT,
+    EMBED,
     ;
 
     companion object {
