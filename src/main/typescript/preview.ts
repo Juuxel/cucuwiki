@@ -6,9 +6,15 @@
 
 import { marked } from "marked";
 import * as DOMPurify from "dompurify";
+import { DOMPurifyI } from "dompurify";
 
 function sanitize(input: string): string {
-    return DOMPurify.sanitize(input);
+    // Awful hack for Rollup - looks like it can't deal with
+    // DOMPurify being a namespace but also a factory for an object.
+
+    // @ts-ignore
+    const purify: DOMPurifyI = DOMPurify.default;
+    return purify.sanitize(input);
 }
 
 function updatePreview() {

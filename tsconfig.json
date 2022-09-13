@@ -3,9 +3,9 @@
     "target": "es2016",
     "strict": true,
     "rootDir": "src/main/typescript",
-    "outDir": "build/chonky_scripts",
+    "outDir": "build/scripts",
     "moduleResolution": "node",
-    "module": "none"
+    "module": "es6"
   },
   "exclude": ["build/**/*"]
 }

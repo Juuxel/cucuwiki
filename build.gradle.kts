@@ -94,45 +94,32 @@ tasks.assemble {
     dependsOn(jarInJar)
 }
 
-val tsOutput = file("build/chonky_scripts")
-val tsBundled = file("build/scripts/script.js")
+val tsOutput = file("build/scripts")
+val tsBundled = file("build/script.js")
 
 val npmCi = tasks.getByName("npm_ci") {
     inputs.file("package.json")
     inputs.file("package-lock.json")
     outputs.dir("node_modules")
 }
-val compileTypeScript = tasks.register<NpxTask>("compileTypeScript") {
+val checkTypeScript = tasks.register<NpxTask>("checkTypeScript") {
     dependsOn(npmCi)
     command.set("tsc")
+    args.add("--noEmit")
     inputs.dir(file("src/main/typescript"))
     inputs.file(file("tsconfig.json"))
-    outputs.dir(tsOutput)
 }
-val browserify = tasks.register<NpxTask>("browserify") {
-    dependsOn(compileTypeScript)
-    command.set("browserify")
-    args.set(provider {
-        val args = arrayListOf(
-            "-p",
-            "tinyify",
-            "-o",
-            tsBundled.absolutePath,
-            "-d",
-        )
-        for (file in fileTree(tsOutput)) {
-            if (file.name.endsWith(".js")) {
-                args += file.absolutePath
-            }
-        }
-        args
-    })
-    inputs.dir(tsOutput)
+val rollup = tasks.register<NpxTask>("rollup") {
+    dependsOn(npmCi)
+    command.set("rollup")
+    args.add("-c")
+    inputs.file("rollup.config.js")
+    inputs.dir("src/main/typescript")
     outputs.file(tsBundled)
 }
 
 tasks.processResources {
-    dependsOn(browserify)
+    dependsOn(rollup)
     from(tsBundled) {
         into("static")
     }
@@ -147,7 +134,7 @@ val eslint = tasks.register<NpxTask>("eslint") {
 }
 
 tasks.check {
-    dependsOn(eslint)
+    dependsOn(checkTypeScript, eslint)
 }
 
 idea {
