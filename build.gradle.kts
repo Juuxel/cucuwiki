@@ -1,4 +1,4 @@
-import com.github.gradle.node.npm.task.NpxTask
+import com.github.gradle.node.pnpm.task.PnpmTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Properties
 
@@ -97,22 +97,23 @@ tasks.assemble {
 val tsOutput = file("build/scripts")
 val tsBundled = file("build/script.js")
 
-val npmCi = tasks.getByName("npm_ci") {
+fun pnpm(name: String, vararg command: String, block: PnpmTask.() -> Unit): TaskProvider<PnpmTask> =
+    tasks.register<PnpmTask>(name) {
+        dependsOn(pnpmInstall)
+        args.addAll(*command)
+        block()
+    }
+
+val pnpmInstall = tasks.getByName("pnpmInstall") {
     inputs.file("package.json")
-    inputs.file("package-lock.json")
+    outputs.file("pnpm-lock.yaml")
     outputs.dir("node_modules")
 }
-val checkTypeScript = tasks.register<NpxTask>("checkTypeScript") {
-    dependsOn(npmCi)
-    command.set("tsc")
-    args.add("--noEmit")
+val checkTypeScript = pnpm(name = "checkTypeScript", "tsc", "--noEmit") {
     inputs.dir(file("src/main/typescript"))
     inputs.file(file("tsconfig.json"))
 }
-val rollup = tasks.register<NpxTask>("rollup") {
-    dependsOn(npmCi)
-    command.set("rollup")
-    args.add("-c")
+val rollup = pnpm(name = "rollup", "rollup", "-c") {
     inputs.file("rollup.config.js")
     inputs.dir("src/main/typescript")
     outputs.file(tsBundled)
@@ -125,10 +126,7 @@ tasks.processResources {
     }
 }
 
-val eslint = tasks.register<NpxTask>("eslint") {
-    dependsOn(npmCi)
-    command.set("eslint")
-    args.add("src/main/typescript")
+val eslint = pnpm(name = "eslint", "eslint", "src/main/typescript") {
     inputs.files(".eslintrc.json")
     inputs.dir("src/main/typescript")
 }
