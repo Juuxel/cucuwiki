@@ -8,7 +8,6 @@ Still very WIP, don't expect anything :)
 Requirements:
 - Java 11
 - Node.js 17
-- PNPM 7
 
 To build, run `gradlew build` on the command line.
 

@@ -1,4 +1,5 @@
 import com.github.gradle.node.pnpm.task.PnpmTask
+import groovy.json.JsonSlurper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Properties
 
@@ -92,6 +93,26 @@ val jarInJar = tasks.register<Jar>("jarInJar") {
 
 tasks.assemble {
     dependsOn(jarInJar)
+}
+
+fun findPnpmVersion(): String {
+    val packageJson = JsonSlurper().parse(file("package.json")) as Map<*, *>
+    if ("packageManager" in packageJson) {
+        val (name, version) = packageJson["packageManager"].toString().split('@', limit = 2)
+        if (name == "pnpm") {
+            logger.lifecycle(":found pnpm version {}", version)
+            return version
+        }
+    }
+
+    logger.lifecycle(":pnpm version not found, defaulting to latest")
+    // Default: latest version
+    return ""
+}
+val pnpmVersionLazy by lazy { findPnpmVersion() }
+
+node {
+    pnpmVersion.set(provider { pnpmVersionLazy })
 }
 
 val tsOutput = file("build/scripts")
