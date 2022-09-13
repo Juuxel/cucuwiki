@@ -4,20 +4,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: ↪ Checkout
         uses: actions/checkout@v3
-      - name: Validate Gradle wrapper
+      - name: 🐘 Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
-      - name: Set up Java
+      - name: ☕ Set up Java
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '11'
-      - name: Set up Node
+      - name: 🟢 Set up Node
         uses: actions/setup-node@v3
         with:
           node-version: '17'
-      - name: Set up pnpm
+      - name: 🟧 Set up pnpm
         uses: pnpm/action-setup@v2.2.2
-      - name: Build
+      - name: 🧱 Build
         run: ./gradlew build --stacktrace
