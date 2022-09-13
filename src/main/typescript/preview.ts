@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import {marked} from "marked";
+import { marked } from "marked";
 import * as DOMPurify from "dompurify";
 
 function sanitize(input: string): string {
@@ -12,7 +12,7 @@ function sanitize(input: string): string {
 }
 
 function updatePreview() {
-    const preview = document.getElementById("preview-area");
+    const preview = document.getElementById("preview-area")!;
     const editor = document.getElementById("editor") as HTMLTextAreaElement;
     const markdown = sanitize(editor.value);
     preview.innerHTML = marked.parse(markdown);

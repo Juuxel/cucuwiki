@@ -138,6 +138,18 @@ tasks.processResources {
     }
 }
 
+val eslint = tasks.register<NpxTask>("eslint") {
+    dependsOn(npmCi)
+    command.set("eslint")
+    args.add("src/main/typescript")
+    inputs.files(".eslintrc.json")
+    inputs.dir("src/main/typescript")
+}
+
+tasks.check {
+    dependsOn(eslint)
+}
+
 idea {
     module {
         sourceDirs.add(file("src/main/typescript"))

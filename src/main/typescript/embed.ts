@@ -11,11 +11,14 @@ document.addEventListener("DOMContentLoaded", () => {
             object.addEventListener("load", () => {
                 const innerDocument = object.contentDocument;
                 if (innerDocument != null) {
-                    const observer = new ResizeObserver(entries => {
+                    const observer = new ResizeObserver((entries) => {
                         for (const entry of entries) {
                             if (entry.target.tagName.toLowerCase() == "html") {
-                                const size = entry.borderBoxSize.reduce((prev, current) => Math.max(prev, current.blockSize), 0);
-                                object.height = size + "px";
+                                const size = entry.borderBoxSize.reduce(
+                                    (prev, current) => Math.max(prev, current.blockSize),
+                                    0
+                                );
+                                object.height = `${size}px`;
                                 observer.disconnect();
                                 break;
                             }

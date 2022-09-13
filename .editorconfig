@@ -1,0 +1,11 @@
+root = true
+
+[*]
+indent_style = space
+max_line_length = 120
+
+[*.json]
+indent_size = 2
+
+[{*.ts, *.kt, *.kts}]
+indent_size = 4
