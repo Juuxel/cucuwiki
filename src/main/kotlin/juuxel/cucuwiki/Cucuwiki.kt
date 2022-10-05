@@ -31,7 +31,7 @@ class Cucuwiki(val runDirectory: Path) {
 
     fun launch() {
         val app = Javalin.create { config ->
-            config.addStaticFiles {
+            config.staticFiles.add {
                 it.directory = "/static"
                 it.hostedPath = "/static"
             }

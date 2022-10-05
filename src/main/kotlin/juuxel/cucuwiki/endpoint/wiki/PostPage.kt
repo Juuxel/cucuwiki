@@ -7,13 +7,12 @@
 package juuxel.cucuwiki.endpoint.wiki
 
 import io.javalin.http.Context
-import io.javalin.http.HttpCode
+import io.javalin.http.HttpStatus
 import juuxel.cucuwiki.Cucuwiki
 import juuxel.cucuwiki.endpoint.Endpoint
 import juuxel.cucuwiki.page.Page
 import juuxel.cucuwiki.util.PathNormalizer
 import juuxel.cucuwiki.util.UrlEncoding
-import java.net.URLEncoder
 import kotlin.io.path.exists
 
 class PostPage(private val app: Cucuwiki) : Endpoint {
@@ -42,16 +41,16 @@ class PostPage(private val app: Cucuwiki) : Endpoint {
                         app.repository.commitFile("$name.json", "root", null)
                         ctx.redirect(
                             "/wiki/${UrlEncoding.encodePath(name)}?do=view",
-                            HttpCode.SEE_OTHER.status
+                            HttpStatus.SEE_OTHER
                         )
                     } else {
-                        ctx.status(HttpCode.FORBIDDEN)
+                        ctx.status(HttpStatus.FORBIDDEN)
                         // TODO: Forbidden page
                         val page = app.pageRenderer.genericNotFound(name)
                         ctx.html(page)
                     }
                 } else {
-                    ctx.status(HttpCode.BAD_REQUEST)
+                    ctx.status(HttpStatus.BAD_REQUEST)
                     ctx.result("POST request missing article_content")
                 }
             }

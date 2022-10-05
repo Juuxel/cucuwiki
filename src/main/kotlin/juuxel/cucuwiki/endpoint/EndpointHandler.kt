@@ -8,7 +8,7 @@ package juuxel.cucuwiki.endpoint
 
 import io.javalin.http.Context
 import io.javalin.http.Handler
-import io.javalin.http.HttpCode
+import io.javalin.http.HttpStatus
 
 class EndpointHandler(private val endpoint: Endpoint) : Handler {
     override fun handle(ctx: Context) {
@@ -16,7 +16,7 @@ class EndpointHandler(private val endpoint: Endpoint) : Handler {
             endpoint.handle(ctx)
         } catch (e: Exception) {
             // TODO: Internal server error page
-            ctx.status(HttpCode.INTERNAL_SERVER_ERROR)
+            ctx.status(HttpStatus.INTERNAL_SERVER_ERROR)
             ctx.result("Internal server error, oh no")
         }
     }

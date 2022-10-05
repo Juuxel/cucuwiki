@@ -7,7 +7,7 @@
 package juuxel.cucuwiki.endpoint.wiki
 
 import io.javalin.http.Context
-import io.javalin.http.HttpCode
+import io.javalin.http.HttpStatus
 import juuxel.cucuwiki.Cucuwiki
 import juuxel.cucuwiki.endpoint.Endpoint
 import juuxel.cucuwiki.page.Markdown
@@ -25,7 +25,7 @@ class GetPage(private val app: Cucuwiki) : Endpoint {
                 val path = app.repository.resolveFile("$name.json")
 
                 if (path == null) {
-                    ctx.status(HttpCode.FORBIDDEN)
+                    ctx.status(HttpStatus.FORBIDDEN)
                     // TODO: Forbidden page
                     val page = app.pageRenderer.genericNotFound(name)
                     ctx.html(page)
@@ -41,7 +41,7 @@ class GetPage(private val app: Cucuwiki) : Endpoint {
                 val html: String = if (page != null) {
                     app.pageRenderer.renderView(name, page)
                 } else {
-                    ctx.status(HttpCode.NOT_FOUND)
+                    ctx.status(HttpStatus.NOT_FOUND)
                     app.pageRenderer.articleNotFound(name)
                 }
                 ctx.html(html)
@@ -57,7 +57,7 @@ class GetPage(private val app: Cucuwiki) : Endpoint {
                 val path = app.repository.resolveFile("$name.json")
 
                 if (path == null) {
-                    ctx.status(HttpCode.FORBIDDEN)
+                    ctx.status(HttpStatus.FORBIDDEN)
                     // TODO: Forbidden page
                     val page = app.pageRenderer.genericNotFound(name)
                     ctx.html(page)
@@ -73,7 +73,7 @@ class GetPage(private val app: Cucuwiki) : Endpoint {
                 val html: String = if (page != null) {
                     app.pageRenderer.renderEmbed(page)
                 } else {
-                    ctx.status(HttpCode.NOT_FOUND)
+                    ctx.status(HttpStatus.NOT_FOUND)
                     app.pageRenderer.articleNotFound(name)
                 }
                 ctx.html(html)
